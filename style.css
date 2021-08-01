@@ -1,6 +1,12 @@
 body{
     background:lightgreen;
 }
+h1{
+    font:5rem 'Monospace Regular',monospace;
+    border-radius: 20px;
+    padding: 1rem 0.5rem;
+    background: white;
+}
 .art{
     background: white;
     display: flex;
@@ -60,6 +66,10 @@ body{
     border-radius: 16px;
     padding:1rem;
     cursor: pointer;
+    font:1rem 'Monospace Regular',monospace;
+}
+.cur-color-text, label{
+    font:1rem 'Monospace Regular',monospace;
 }
 .local-storage-buttons{
     display: flex;
