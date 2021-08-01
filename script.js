@@ -1,3 +1,5 @@
+
+//Creates a canvas of exact size
 function createCanvas(height,width){
     for(let i = 1; i <= width; i++){
         let row = document.createElement("div");
@@ -14,31 +16,100 @@ function createCanvas(height,width){
 
     }
 }
+
 createCanvas(80,50);
-var curColor = "black";
+
+
+
+
+var curColor = "black"; //Array of colors below
 const colorArray = ["black", "blue", "brown", "cyan", "gray", "green", "lime", "orange", "pink", "purple", "red", "tan", "teal", "yellow", "white"];
+//Creates div elements with background colors from the array
 function assignColors(colorArray){
-    for(let i = 0; i < colorArray.length; i++){
+    for(color of colorArray){
         let tool = document.createElement("div");
         tool.classList.add("color");
-        tool.style.backgroundColor = colorArray[i];
-        if(colorArray[i] == "white"){
+        tool.style.backgroundColor = color;
+        if(color == "white"){
             tool.style.border = "1px solid gray";
         }
         document.querySelector(".art-colors").appendChild(tool);
     }
 }
 assignColors(colorArray);
-let pixelSet = document.querySelectorAll(".pixel");
-for(let i = 0; i < pixelSet.length; i++){
-    pixelSet[i].addEventListener("click",function(){
-        this.style.backgroundColor = curColor;
-        this.style.borderColor = curColor;
-    });
+
+
+
+//Adding a mousedown event to canvas
+let pixels = document.querySelectorAll(".pixel");
+let canvas = document.querySelector(".art-canvas");
+for(pixel of pixels){
+    pixel.addEventListener("mousedown",changeColor);
 }
+//Color indicator
+
+function colorIndicator(){
+    let indicator = document.querySelector(".cur-color");
+    indicator.style.backgroundColor = curColor;
+    if(curColor == "white"){
+        indicator.style.border = "1px solid gray";
+    }
+    else{
+        indicator.style.border = "none";
+    }
+}
+colorIndicator();
+//Adding color selectors
+let userColor = document.createElement("div");
+userColor.classList.add("color","user");
+document.querySelector(".art-colors").appendChild(userColor);
+userColor = document.querySelector(".user");
+
 let colorSet = document.querySelectorAll(".color");
-for(let i = 0; i < colorSet.length; i++){
-    colorSet[i].addEventListener("click",function(){
-        curColor = this.style.backgroundColor;
-    });
+for(color of colorSet){
+    color.addEventListener("click",pickColor);
 }
+let colorPicker = document.querySelector("#color-picker");
+function colorPickerChange(){
+    curColor = colorPicker.value;
+    userColor.style.backgroundColor = curColor;
+    colorIndicator();
+}
+colorPicker.addEventListener("input",colorPickerChange);
+colorPicker.addEventListener("change",colorPickerChange);
+
+
+//Bonus 1 - smooth drawing
+canvas.addEventListener("mousedown",startDraw);
+canvas.addEventListener("mouseup",stopDraw);
+
+function startDraw(){
+    for(pixel of pixels){
+        pixel.addEventListener("mouseenter",changeColor);
+    }
+}
+function stopDraw(){
+    for(pixel of pixels){
+        pixel.removeEventListener("mouseenter",changeColor);
+    }
+}
+function changeColor(){
+    this.style.backgroundColor = curColor;
+    this.style.borderColor = curColor;
+}
+function pickColor(){
+    curColor = this.style.backgroundColor;
+    colorIndicator();
+}
+
+//Additional functions
+
+//Clear function
+function clear(){
+    for(pixel of pixels){
+        if(pixel.style.background == "none" && pixel.style.border == "1px solid gray"){continue;}
+        else{pixel.style.background = "none";
+        pixel.style.border = "1px solid gray";}
+    }
+}
+document.querySelector(".clear").addEventListener("click",clear);
