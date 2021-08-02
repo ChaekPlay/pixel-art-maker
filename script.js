@@ -113,3 +113,25 @@ function clear(){
     }
 }
 document.querySelector(".clear").addEventListener("click",clear);
+
+//Bonus 3 - localStorage
+
+function save(){
+    let picture = [];
+    for(pixel of pixels){
+        picture.push(pixel.style.backgroundColor);
+    }
+    localStorage.clear();
+    localStorage.setItem('picture',JSON.stringify(picture));
+}
+function load(){
+    let item = JSON.parse(localStorage.getItem('picture'));
+    for(let i = 1; i <= item.length - 1;i++){
+        pixels[i].style.backgroundColor = item[i];
+        if(item[i] == ""){pixels[i].style.border = "1px solid gray";}
+        else{pixels[i].style.borderColor = item[i];}
+    }
+}
+
+document.querySelector(".save").addEventListener("click",save);
+document.querySelector(".load").addEventListener("click",load);
