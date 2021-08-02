@@ -59,7 +59,7 @@ function colorIndicator(){
     }
 }
 colorIndicator();
-//Adding color selectors
+//Adding color selectors + Bonus 2 - color picker
 let userColor = document.createElement("div");
 userColor.classList.add("color","user");
 document.querySelector(".art-colors").appendChild(userColor);
@@ -69,6 +69,12 @@ let colorSet = document.querySelectorAll(".color");
 for(color of colorSet){
     color.addEventListener("click",pickColor);
 }
+
+function pickColor(){
+    curColor = this.style.backgroundColor;
+    colorIndicator();
+}
+
 let colorPicker = document.querySelector("#color-picker");
 function colorPickerChange(){
     curColor = colorPicker.value;
@@ -96,10 +102,6 @@ function stopDraw(){
 function changeColor(){
     this.style.backgroundColor = curColor;
     this.style.borderColor = curColor;
-}
-function pickColor(){
-    curColor = this.style.backgroundColor;
-    colorIndicator();
 }
 
 //Additional functions
